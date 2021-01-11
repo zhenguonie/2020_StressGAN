@@ -149,29 +149,24 @@ class TrainUtils():
 		with open(ffile, 'w') as f: 
 			json.dump(vars(self.opt), f, indent=4)
 
-
 	def train_init(self):
 		"""initilize the dictionary for recording metrics in training"""
 		self.loss_per_epoch_train = {name:[] for name in self.loss_name_per_epoch_train}
-
 
 	def val_init(self):
 		"""initilize the dictionary for recording metrics in evaluaton"""
 		self.loss_val = {name:[] for name in self.loss_name_val}
 		self.metrics = {name:[] for name in self.metric_name}
 
-
 	def update_per_batch_train(self, **kwargs):
 		"""record the metric values in training"""
 		for k, v in kwargs.items():
 			self.loss_per_epoch_train[k].append(v)
 
-
 	def update_per_batch_val(self, **kwargs):
 		"""record the metric values in evluation"""
 		for k, v in kwargs.items():
 			self.loss_val[k].append(v)
-
 
 	def update_metrics_val(self, stress_fake, stress_real, cls_fake_D=None, cls_real_D=None):
 		"""record the metrics in evaluation"""
@@ -192,14 +187,12 @@ class TrainUtils():
 			self.metrics['real_cls'].append(np.average(cls_real_D.numpy()))
 			self.metrics['fake_cls'].append(np.average(cls_fake_D.numpy()))
 
-
 	def MSE_MAE(self, stress_fake, stress_real):
 		"""calculate MSE and MAE given the stresses"""
 		stress_fake = np.reshape(stress_fake, (self.opt.batchSize, -1))
 		stress_real = np.reshape(stress_real, (self.opt.batchSize, -1))
 
 		return TrainUtils.MSE(stress_fake, stress_real), TrainUtils.MAE(stress_fake, stress_real)
-
 
 	def update_histogram_param(self, net):
 		"""add weights into summary"""
@@ -208,13 +201,11 @@ class TrainUtils():
 			for name, param in network.named_parameters():
 				self.summary_writter.add_histogram('%s/%s'%(net_name, name), param, self.global_step)
 
-
 	def update_summary_train(self):
 		"""add calculated metrics into summary in training"""
 		for k, v in self.loss_per_epoch_train.items():
 			if len(v) != 0:
 				self.summary_writter.add_scalar('train/%s'%k, sum(v)/len(v), self.global_step)
-
 
 	def update_summary_eval(self):
 		"""add calculated metrics into summary in evaluation"""
@@ -226,16 +217,13 @@ class TrainUtils():
 			if len(v) != 0:
 				self.summary_writter.add_scalar('val/%s'%k, sum(v)/len(v), self.global_step)
 
-
 	def global_step_(self):
 		"""update global step"""
 		self.global_step += 1
 
-
 	def epoch_step(self):
 		"""update epoch"""
 		self.epoch += 1
-
 
 	def get_model(self):
 		"""get model based on configurations"""
@@ -257,7 +245,6 @@ class TrainUtils():
 			print(opt.Dmodel + ' LOADED SUCCESSFULLY')
 
 		return G, D
-
 
 	def get_optim(self, G, D, single=False):
 		"""This function returnS two optimizers for G and D respectively or one optimizer for the given models."""
@@ -291,7 +278,6 @@ class TrainUtils():
 
 			return optimizer
 
-
 	def get_schl(self, optimizer_G, optimizer_D, optimizer=None, single=False):
 		"""This function returnS two schedulers for G and D respectively or one scheduler for the given models."""
 		opt = self.opt
@@ -317,12 +303,10 @@ class TrainUtils():
 
 			return scheduler
 
-
 	def save_model(self, **models):
 		"""save models by their name and global steps"""
 		for k,v in models.items():
 			torch.save(v, '%s/%s_%d.pth' % (self.model_dir, k, self.global_step))
-
 
 	def print_training_results(self):
 		"""print the losses in training"""
@@ -331,7 +315,6 @@ class TrainUtils():
 			if len(v) != 0:
 				print(k, (sum(v)/len(v)), end=' ')
 		print('\n')
-
 
 	def print_val_results(self):
 		"""print the losses and metrics in eval"""
@@ -344,11 +327,9 @@ class TrainUtils():
 				print(k, (sum(v)/len(v)), end=' ')			
 		print('\n')
 
-
 	def get_stress_field(self, dists, max_stresses):
 		stress_field = [dist*max_stress for dist, max_stress in zip(dists, max_stresses)]
 		return np.array(stress_field)
-
 
 	@staticmethod
 	def set_requires_grad(model, requires_grad):
@@ -358,12 +339,10 @@ class TrainUtils():
 
 		return model
 
-
 	@staticmethod
 	def MAE(a, b):
 		"""a: N*(h*w) or (h*w)"""
 		return mean_absolute_error(a, b)
-
 
 	@staticmethod
 	def PMAE(a, b):
@@ -377,19 +356,9 @@ class TrainUtils():
 
 		return pmae
 
-
-	@staticmethod
-	def old_PMAE(a,b):
-		"""dumped"""
-		pmae_ = np.average(np.average(np.abs(a-b), axis=1)/(np.amax(b,axis=1)-np.amin(b,axis=1)))
-
-		return pmae_
-
-
 	@staticmethod
 	def MSE(a, b):
 		return mean_squared_error(a, b)
-
 
 	@staticmethod
 	def PAE(a, b):
@@ -397,21 +366,12 @@ class TrainUtils():
 		b_max = np.abs(np.amax(b, axis=-1))
 		return mean_absolute_error(a_max, b_max)
 
-
 	@staticmethod
 	def PPAE(a, b):
 		a_max = np.abs(np.amax(a, axis=-1))
 		b_max = np.abs(np.amax(b, axis=-1))
 		new_a_max = np.divide(a_max, b_max)
 		return mean_absolute_error(new_a_max, np.ones(np.shape(new_a_max)))
-
-
-	@staticmethod
-	def old_PPAE(a, b):
-		"""dumped"""
-		ppae = np.average(np.abs(np.amax(b, axis=1) - np.amax(a, axis=1))/(np.amax(b, axis=1))[:,None])
-
-		return ppae
 
 
 if __name__ == '__main__':
