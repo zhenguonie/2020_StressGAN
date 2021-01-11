@@ -2,9 +2,9 @@
 
 ## StressGAN: A Generative Deep Learning Model for 2D Stress Distribution Prediction
 
-Code release (updating) for the paper **StressGAN: A Generative Deep Learning Model for 2D Stress Distribution Prediction**, to appear in JAM 2021.
+Code release (updating) for the paper **StressGAN: A Generative Deep Learning Model for 2D Stress Distribution Prediction**, publised in IDETC 2020, to appear in JAM 2021.
 
-[[arXiv]](https://arxiv.org/abs/2006.11376);
+[[arXiv]](https://arxiv.org/abs/2006.11376)
 
 ## Current Citation
 ```
@@ -18,7 +18,7 @@ Code release (updating) for the paper **StressGAN: A Generative Deep Learning Mo
 }
 ```
 
-**Authors**: [Haoliang Jiang](https://github.com/haoliangjiang), [Zhenguo Nie (correspondence author)](https://github.com/zhenguonie), Roselyn Yeo, Amir Barati Farimani, Levent Burak Kara.
+**Authors**: [Haoliang Jiang](https://github.com/haoliangjiang), [Zhenguo Nie](https://github.com/zhenguonie) (the correspondence author), Roselyn Yeo, Amir Barati Farimani and Levent Burak Kara.
 
 
 ## Abstract
@@ -26,11 +26,11 @@ We propose a conditional generative adversarial network (cGAN) model called Stre
 
 
 ## StressGAN
-![architecture](https://github.com/zhenguonie/2020_StressGAN/fig/architecture.png)
+![architecture](fig/architecture.png)
 
 
 ## Performance compared to the baseline
-![performance](https://github.com/zhenguonie/2020_StressGAN/fig/performance.png)
+![performance](fig/performance.png)
 
 
 ## Run the code
@@ -59,14 +59,14 @@ python train.py \
 --dataRootTest=path to testing dataset \
 --Gmodel=path to generator \
 --Dmodel=path to discriminator \
---Goptim=path to optimizer for generator \
---Doptim=path to optimizer for discriminator \
---Glrschl=path to scheduler for generator \
---Doptim=path to scheduler for discriminator \
+--Goptim=path to optimizer of generator \
+--Doptim=path to optimizer of discriminator \
+--Glrschl=path to scheduler of generator \
+--Doptim=path to scheduler of discriminator \
 ```
 
 ### Inference
-* To test a model, run the following command with `--eval` to test the loaded model on the testing dataset:
+To test a model, run the following command with `--eval` to test the loaded model on the testing dataset:
 ```
 python train.py \
 --outf=path to output folder \
@@ -87,10 +87,11 @@ For each experiment, the output infomation will be saved as following:
 │   │   ├── tensorboard
 │   ├── configuration.json
 
-The informaton will be stored based on global steps for the training.
 
 ```
+The informaton will be stored based on global steps for training.
 
 
 **Note**: 
-* We are still working on the repository. Please contact us if there are any questions.
+* We are still working on the repository.
+* If there are any questions, please feel free to contact us.
