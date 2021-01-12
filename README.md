@@ -18,7 +18,7 @@ Code release (updating) for the paper **StressGAN: A Generative Deep Learning Mo
 }
 ```
 
-**Authors**: [Haoliang Jiang](https://github.com/haoliangjiang), [Zhenguo Nie](https://github.com/zhenguonie) (the correspondence author), Roselyn Yeo, Amir Barati Farimani and Levent Burak Kara.
+**Authors**: [Haoliang Jiang](https://haoliangjiang.github.io), [Zhenguo Nie](https://github.com/zhenguonie) (the correspondence author), Roselyn Yeo, Amir Barati Farimani and Levent Burak Kara.
 
 
 ## Abstract
